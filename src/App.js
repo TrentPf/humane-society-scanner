@@ -1,6 +1,5 @@
 import './App.css';
 import { useState } from 'react';
-import Home from './components/Home';
 import PetList from './components/PetList';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
   const [error, setError] = useState(null);
 
   const handleClick = async () => {
-    setLoading = true;
+    setLoading(true);
 
     try {
       const response = await fetch('https://kwsphumane.ca/found-pets', {
@@ -20,12 +19,33 @@ function App() {
       });
 
       if (!response.ok) {
-        throw new Error('Error! status: ${response.status}');
+        throw new Error(`Error! status: ${response.status}`);
       }
 
-      const result = await response.json();
+      const result = await response.text();
 
-      console.log('result is: ', JSON.stringify(result, null, 4));
+      const responseContainer = document.createElement("div");
+      responseContainer.innerHTML = result;
+      
+      let petNames = responseContainer.getElementsByClassName("list-animal-name");
+      let imageSources = responseContainer.getElementsByClassName("list-animal-photo");
+
+      let petNamesArray = [];
+      let imageSourcesArray =[];
+
+      for (let i = 0; i < petNames.length; i++) {
+        petNamesArray.push(petNames.item(i).firstChild.innerHTML);
+        imageSourcesArray.push(imageSources.item(i).getAttribute("src"));
+      }
+
+      console.log(petNamesArray);
+      console.log(imageSourcesArray);
+
+      
+
+      
+
+      console.log(`result is: ${result}`);
 
       setData(result); //Fix this later so that data is objects of the form { imageLink: ..., id: ... } 
     } catch (error) {
@@ -33,9 +53,10 @@ function App() {
     } finally {
       setLoading(false);
     }
+
   };
 
-  console.log(data);
+  
 
   return (
     <div>

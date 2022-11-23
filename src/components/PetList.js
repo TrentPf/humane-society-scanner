@@ -1,9 +1,9 @@
 import Pet from './Pet';
 
-function PetList() {
+function PetList(props) {
     return (
         <div>
-            
+
         </div>
     );
 }

@@ -1,4 +1,4 @@
-function Pet() {
+function Pet(props) {
     return (
         <div>
             
